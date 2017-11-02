@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>复制变量值-引用类型</title>
+  <script>
+    var person = new Object();
+    person.name = '李白';
+    var person2 = person;
+    console.log('修改变量前：' + person.name); // 李白
+    person2.name = '杜甫';
+    console.log('修改后的变量：' + person.name); // 杜甫
+    // 从这个例子可以看出对于引用类型变量的复制：实际了复制的时候只是复制了对于堆内存中变量的引用，并不是完全copy
+    // 一份。所以，修改手复制后(person2)的变量，同样也会影响前面(person)的变量
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

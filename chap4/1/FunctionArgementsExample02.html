@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>传递参数-引用类型</title>
+  <script>
+    // function setName(obj) {
+    //   obj.name = '李白';
+    // }
+    // var person = new Object();
+    // setName(person);
+    // console.log(person.name); // 李白
+    /**
+     * 在上面的例子中：obj和person是按值传递的，他们对应的值是对于person的引用。即修改了obj的属性也会在person
+     * 中反应出来
+     * 到了这里，很多人都会认为：对于引用类型，在局部的作用域中修改了对象的某个属性，会在全局的对象中反应出来
+     * 这说明：对于引用类型的参数传递是按引用传递的。
+     * 但是这种想法是错误的。比如下面这个例子
+     **/
+    function setName(obj) {
+      obj.name = '李白';
+      // 到了这里obj其实是一个局部变量，对其进行修改不会影响person。而且在函数执行完成后会销毁
+      obj = new Object();
+      obj.name = '杜甫';
+    }
+     var person = new Object();
+     setName(person);
+     console.log(person.name); // 李白
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

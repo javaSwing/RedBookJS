@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>传递参数-基本类型</title>
+  <script>
+    function addTen(num) {
+      num += 10;
+      return num;
+    }
+    var count = 20;
+    var result = addTen(count);
+    console.log(count); // 20
+    console.log(result); // 30
+    // 对于基本引用类型，没有什么好说的。基本类型在任何情况都是按值传值，所以不会更改函数外的值
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
