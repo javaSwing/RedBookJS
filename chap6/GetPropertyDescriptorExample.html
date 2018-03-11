@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第六章节-读取属性特性</title>
+  <script>
+    // Object.defineProperties() 该方法用于一次设置一个对象的多个属性
+    var book = {};
+    Object.defineProperties(book, {
+      _year: {
+        value: 2004,
+        writable: true // 如果不明确指定writable enumable configurable 默认值都为false,  用.操作符默认值为true
+      },
+      edition: {
+        writable: true,
+        value: 1
+      },
+      year: {
+        get: function() {
+          return this._year;
+        },
+        set: function(val) {
+          if(val > 2004) {
+            this._year = val;
+            this.edition += val - 2004;
+          }
+        }
+      }
+    });
+    var descriptor = Object.getOwnPropertyDescriptor(book, "_year");
+    console.log(descriptor.value); // 2004
+    console.log(descriptor.writable); // true
+    console.log(descriptor.configurable); // false
+    console.log(descriptor.get) // undefined
+    
+    var descriptor2 = Object.getOwnPropertyDescriptor(book, "year");
+    console.log(descriptor2.value); // undefined
+    console.log(descriptor2.get); // 函数内容 
+    console.log(typeof descriptor2.set); // function
+    console.log(descriptor2.enumerable); // false
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

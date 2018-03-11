@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第六章节-定义多个属性</title>
+  <script>
+    // Object.defineProperties() 该方法用于一次设置一个对象的多个属性
+    var book = {};
+    Object.defineProperties(book, {
+      _year: {
+        value: 2004,
+        writable: true // 如果不明确指定writable enumable configurable 默认值都为false,  用.操作符默认值为true
+      },
+      edition: {
+        writable: true,
+        value: 1
+      },
+      year: {
+        get: function() {
+          return this._year;
+        },
+        set: function(val) {
+          if(val > 2004) {
+            this._year = val;
+            this.edition += val - 2004;
+          }
+        }
+      }
+    });
+    book.year = 2005;
+    console.log(book)
+    console.log(book.year);
+    console.log(book.edition);
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

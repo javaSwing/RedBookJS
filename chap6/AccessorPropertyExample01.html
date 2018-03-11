@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第六章节-访问器属性</title>
+  <script>
+    // 访问器属性，除了configurable和enumable属性之外还有，get 和 set 函数用于设计对象属性的值
+    var person = {
+      _year: 2004,
+      edition: 1
+    };
+    // 定义 setter 和 getter
+    Object.defineProperty(person, "year", {
+      get: function() {
+        return this._year;
+      },
+      set: function(val) {
+        if(val > 2004) {
+          this._year = val;
+          this.edition += val - 2004
+        }
+      }
+    });
+    person.year = 2005;
+    console.log(person.edition); // 2
+    console.log(person.year);// 2,只指定setter的情况下会返回undefined
+    console.log(person._year);  // 2005
+    // 不一定要同时指定setter 和 getter，只指定getter意味着属性是不能写的，尝试写入对象的值会被忽略，在严格模式下会抛出错误
+    // 反之如果不只指定setter不指定getter
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

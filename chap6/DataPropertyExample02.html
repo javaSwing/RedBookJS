@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第六章节-数据属性02</title>
+  <script>
+    var person = {};
+   
+    Object.defineProperty(person, "name", {      
+      configurable: false, // configurable设置false之后就不能使用delete不能删除原有对象的属性
+                          // 而且一旦把configurable设置值之后，便不能进行重新设置
+      value: 'JavaSwing'
+    });
+    // Uncaught TypeError: Cannot redefine property: name
+    Object.defineProperty(person, "name", {
+      configurable: true,
+      value: '李白'
+    });
+    // 也就是说：多次调用Object.defineProperty方法修改出个属性，在设置了configurable为false之后就会有了限制
+    console.log(person.name); // JavaSwing
+    delete person.name;
+    console.log(person.name) // JavaSwing
+    // 在调用object-defineProperty时如果不指定configurable、writable、enumable这些特性时，默认的值都是为false
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
