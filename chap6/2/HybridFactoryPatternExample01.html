@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>寄生构造函数模式</title>
+  <script>
+    function Person (name, age, job) {
+      var o = new Object();
+      o.name = name;
+      o.age = age;
+      o.job = job;
+      o.sayName = function() {
+        console.log(this.name)
+      }
+      return o;
+    }
+    // var person = new Person("李白", 55, "诗人");
+    // person.sayName();
+
+    // 寄生构造函数：这种模式适合在特殊情况下为对象创建构造函数，比如：在某些情况下创建一个具有特殊方法的数据，且不能直接
+    // 修改Array数组
+
+
+    
+    function SpecialArray() {
+      var values = new Array();
+      values.push.apply(values, arguments);
+      values.toSpecialString = function() {
+        return this.join("|");
+      };
+      return values;
+    }
+
+    var c = new SpecialArray("李白", "杜甫", "张浪"); // 李白|杜甫|张浪
+    // console.log(c.toSpecialString());
+    // 寄生构造函数
+    // 1.返回的对象与构造函数或者构造函数的原型属性之间没有关系，意味着不能使用instanceOf关键字进行确定对象的类型
+    // 尽量不使用
+
+    // 分析上面的代码,在寄生构造函数中：首先函数创建了一个array对象的实例，然后为其添加arguments的值，最后添加一个特殊方法
+    // 最后返回 Array 类型的对象: 所以返回的对象原型应该是Array.prototype。并不是与SpecialArray构造函数的原型，所以用
+    // instanceof 检测返回的是false
+
+    // console.log(c instanceof SpecialArray) // false
+    // console.log(c instanceof Array) // true
+    // console.log(c.__proto__) // Array prototype
+
+
+    // 稳妥的构造函数模式
+    // 道格拉斯 * 克罗克福德发明了JS中最稳妥对象：指没有公共属性，而且也不使用引用的this对象，创建对象时不使用new操作符
+    function Person(name, age, job) {
+      var o = new Object();
+      o.name = name;
+      o.age = age;
+      o.job = job;
+      o.sayName = function() { // 除了使用方法调用其属性外没有其它办法调用内部属性
+        console.log(name)
+      }
+      return o;
+    }
+
+    var person = Person("李白", 55, "诗人");
+    person.sayName()
+    // 最稳妥构造函数模式提供的安全性，是它很适合在某些安全执行的环境中
+  </script>
+</head>
+<body> 
+  
+</body>
+</html>

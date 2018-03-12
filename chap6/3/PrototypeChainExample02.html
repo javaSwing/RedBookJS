@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>继承-原型链2 </title>
+  <script>
+    // 3.谨慎的定义方法
+    // 子类型有时候要需要重写超类中的某个方法或者添加超类中不存在的方法。需要注意的是这一切的操作都在改变子类型的prototype属性之后
+    // 父类
+    function Animal() {
+      this.superName = "动物";
+    }
+    // 父类的特有方法
+    Animal.prototype.getSuperName = function() {
+      console.log(this.superName)
+    }
+    // 子类
+    function Cat() {
+      this.subName = "猫";
+    }
+    // 继承父类
+    Cat.prototype = new Animal();
+    // 为子类添加方法
+    Cat.prototype.getSubName = function() {
+      console.log(this.subName)
+    }
+    // 重写父类中的方法
+    Cat.prototype.getSuperName = function() {
+      console.log("子类重写了方法");
+    }
+    var a = new Cat();
+    a.getSubName(); // 猫
+    a.getSuperName(); // 子类重写了方法
+
+    // 在子类中重写父类的方法并不会影响到父类
+    var b = new Animal();
+    b.getSuperName(); // 动物
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

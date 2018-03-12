@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>第六章节-创建对象-构造函数模式</title>
+  <script>
+    // 构造函数模式
+    function Person(name, age, job) {
+      this.name = name;
+      this.age = age;
+      this.job = job;
+      this.sayName = function() {
+        console.log(this.name)
+      }
+    }
+   // 1、将构造函数当作函数
+   // 构造函数与其它函数唯一的区别，就在于调用它们的方式不同。不过构造函数毕竟也是函数，不存在定义构造函数的特殊语法。
+   // 任何函数通过new操作符进行调用，它就可以做为构造函数;而任何函数，如果不通过new操作符调用，它就是一个普通函数。
+  // var person = new Person("李白", 55, "诗人");
+  // person.sayName();
+  // Person("张三", 66, "无业");
+  // window.sayName();
+
+  // // 改变Person的作用域
+  // var o = new Object();
+  // Person.call(o, "李四", 77, "工人");
+  // o.sayName();
+
+  // 2.构造函数的问题
+  // var person1 = new Person("李白", 55, "诗人");
+  // person1.sayName();
+  // var person2 = new Person("张三", 66, "无业");
+  // person2.sayName();
+  // 构造函数虽然好用，但是缺点也很明显：就是函数体内的每个方法都会重新创建一遍，比如前面例子中的person1和person2中的sayName方法
+  // 这个实例中的sayName方法不是同一个Function的实例，检测代码如下
+  // console.log(person1.sayName == person2.sayName) // false
+  // 然而创建两个完全一样的Function实例的确没有必要，况且有this对象的存在，根本不需要在执行代码时绑定对象，可以用如下
+  // 方法进行解决
+  function Person(name, age, job) {
+      this.name = name;
+      this.age = age;
+      this.job = job;
+      this.sayName = sayName;
+    }
+    
+  function sayName () {
+    console.log(this.name)
+  }
+
+  var person1 = new Person("李白", 55, "诗人");
+  person1.sayName();
+  var person2 = new Person("张三", 66, "无业");
+  person2.sayName();
+  console.log(person1.sayName == person2.sayName) // true
+  // 通过上面的方式虽然能解决重复创建Function实例的问题，但是也带来了另一个问题，该方法会在window对象上创建 
+  // 好多全局函数，这并不是我们想要的。这些问题只能使用原型模式进行解决
+  </script>
+</head>
+<body>
+  
+</body>
+</html

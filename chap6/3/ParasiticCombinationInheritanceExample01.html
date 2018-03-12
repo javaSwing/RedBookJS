@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>继承-寄生组合继承</title>
+  <script>
+     function object(o) {
+      function F() {};
+      F.prototype = o;
+      return new F();
+    }
+    // 在前面的例子中组合继承模式成为了目前较为合理继承方式，
+    // function Parent(name) {
+    //   this.name = name;
+    //   this.colors = ["red", "orange"];
+    // }
+
+    // Parent.prototype.sayName = function() {
+    //   console.log(this.name)
+    // }
+
+    // function Children(name, age) {
+    //   // 继承属性
+    //   Parent.call(this, name) // 第二次调用构造函数
+    //   this.age = age;
+    // }
+
+    // // 继承方法
+    // Children.prototype = new Parent(); // 第一次调用构造函数
+    // Children.prototype.sayAge = function() {
+    //   console.log(this.age);
+    // }
+    // 从上面的代码分析来看，第一次调用构造函数的时候Children prototype中已经包含了name 和colors属性，而在Children
+    // 实例化的时候又一次把name 添加到Children对象的实例中，进而隐藏了Children prototype中的name属性，最终会包含
+    // Parent类型对象的全部实例属性，但我们不得不在调用子类型构造函数时重写这些属性
+    
+
+    // 寄生组件式继承
+    function inheritPrototype(c, base) {
+      var p = object(base.prototype); // 创建对象
+      p.constructor = c; // 增强对象
+      c.prototype = p; // 指定对象
+    }
+
+    // 代码分析
+    // 寄生组合式继承：通过借用构造函数来继承属性，通过原型链的混成形式来实现继承。
+    // 本质上是：使用浅复制来复制超类prototype的一个副本，然后为这个副本指定constructor为子类，
+    // 再让子类的prototype 指定到这个副本上
+
+    function Parent(name) {
+      this.name = name;
+      this.colors = ["red", "blue"];
+    }
+
+    Parent.prototype.sayName = function() {
+      console.log(this.name)
+    };
+
+    // 子类
+    function Children(name, age) {
+      Parent.call(this, name);
+      this.age = age;
+    }
+
+    inheritPrototype(Children, Parent);
+    
+    Children.prototype.sayAge = function() {
+      console.log(this.age)
+    }
+
+    var a = new Children("李白", 55);
+    a.colors.push("orange");
+    a.sayAge();
+    a.sayName();
+    var b = new Parent();
+    console.log(b.colors.toString())
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

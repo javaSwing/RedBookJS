@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>继承-原型式继承</title>
+  <script>
+    // 由道格拉斯*克罗克福德首先提出并推广的一种方法，他的思想是借助与原型可以基于已有对象创建新的对象，同时不必创建
+    // 自定义类型
+    function object(o) {
+      function F() {};
+      F.prototype = o;
+      return new F();
+    }
+    // 在ECMAScript5通过添加Object.create()方法来规范化了原型式继承，这个方法接收两个参数：第一个用于新对象原型的对象
+    // 和（可选）一个为新对象定义的额外属性，在传入一个参数的情况下和object的效果是一样的
+
+    var person = {
+      name: "李白",
+      age: 55,
+      friends: ["杜甫", "皇帝"]
+    };
+
+    var person2 = Object.create(person, {
+      job: {
+        value: '诗人'
+      }
+    });
+    console.log(person2.job) // 诗人
+    // 寄生式继承
+    function createAnother(original) {
+      var clone = object(original);
+      clone.sayName = function() {
+        console.log("hi");
+      }
+      return new clone();
+    }
+    
+  </script>

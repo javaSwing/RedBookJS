@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原型模式创建对象</title>
+  <script>
+    // 在js中我们创建每一个函数都有一个property(原型)属性，这个属性是一个指针，指向一个对象，而这个对象的用途是包含可以
+    // 包含由特定类型的所有实例共享的属性和方法。即property就是通过调用构造函数而创建的那个对象实例的原型对象
+    
+    function Person() {}
+    Person.prototype.name = "李白";
+    Person.prototype.age = 55;
+    Person.prototype.job = "诗人";
+    Person.prototype.sayName = function() {
+      console.log(this.name);
+    }
+
+    var person1 = new Person();
+    person1.sayName();
+    // console.log(person1)
+    var person2 = new Person();
+    person2.sayName();
+
+    // console.log(person1.sayName == person2.sayName) // true
+    // 1.对于原型的理解
+    // 无论在什么时候只要通过构造函数创建一个对象，就是根据一组特定的规则为该函数创建一个prototyp属性，该属性指向函数
+    // 的原型对象。而在原型对象中，都会自动获得一个constructor(构造函数)属性，该包含prototype所在函数的指针（构造函数体）
+    // 拿上面的例子来说，就是person.prototype.constructor指向Person。
+    // 创建自定义的构造函数后，其原型对象默认只会取得contructor属性；至于其它方法，则是从Object继承过来的。
+    // 每创建一个对象的实例后都会有一个指针 [[Prototype]] 指向构造函数的原型对象。但是在FireFox、Chrome、Safari中
+    // 都有一个私有的属性 __proto__; __proto__ 是连接于实例和构造函数的的原型;
+
+
+    // 虽然所有的实例都无法访问到 [[Prototype]]，但是可以使用原型对象的isPrototypeOf()方法来确定对象之间是否存在这种关系。
+    // console.log(Person.prototype.isPrototypeOf(person1)) // true
+    // console.log(Person.prototype.isPrototypeOf(person2))
+    // 在ECMAScript5中增加一个方法叫，Object.getPrototypeOf()，在所支持的实现中，这个方法返回值是[[Prototype]]
+    // console.log(Object.getPrototypeOf(person1))
+    // console.log(Object.getPrototypeOf(person1).name) // 李白
+
+    // PrototypePatternExample02.html 内容开始
+    // 原型模式的优点与缺点
+    // 优点：1. 解决了构造函数模式所存在的会自动创建多个相同类型的Function实例
+    // 缺点：1. 原型模式中所有的属性都是多个实例所共享的，这对于共享函数很适合，但是，对于那个基本类型，也说的过去
+    // 在实例中添加了同名属性，可以隐藏原型中的对应属性值。然而，对于包装类型而言问题就比较突出了
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

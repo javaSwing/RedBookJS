@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>继承-原型链3</title>
+  <script>  
+    // 注：在通过原型链实现继承的时候，不能通过对象子面量的方式添加新的原型方法，因为这样做会重写原型链
+    // 父类
+    function Animal() {
+      this.superName = "动物";
+    }
+    // 父类的特有方法
+    Animal.prototype.getSuperName = function() {
+      console.log(this.superName)
+    }
+    // 子类
+    function Cat() {
+      this.subName = "猫";
+    }
+    // 继承父类
+    Cat.prototype = new Animal();   
+
+    // 为子类添加方法
+    Cat.prototype.getSubName = function() {
+      console.log(this.subName)
+    }
+
+    Cat.prototype = {
+      getName: function() {
+        return "通过对象字面量创建"
+      }
+    }
+    var a = new Cat();   
+    a.getSuperName(); // a.getSuperName is not a function          error
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

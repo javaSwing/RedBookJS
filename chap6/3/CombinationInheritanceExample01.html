@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>继承--组合继承</title>
+  <script>
+    // 组合继承也叫伪经典继承，它是将原型链和借用构造函数组合而成了一种模式，原型链实现原型属性与方法的继承，通过借用构造函数实现
+    // 对实例属性的继承
+    function Parent(name) {
+      this.name = name;
+      this.colors = ["red", "orange"];
+    }
+
+    Parent.prototype.sayName = function() {
+      console.log(this.name)
+    }
+
+    function Children(name, age) {
+      // 继承属性
+      Parent.call(this, name)
+      this.age = age;
+    }
+
+    // 继承方法
+    Children.prototype = new Parent();
+    Children.prototype.sayAge = function() {
+      console.log(this.age);
+    }
+
+    var a = new Children("李白", 55);
+    a.colors.push("blue");
+    console.log(a.colors); // red orange blue
+    a.sayAge(); // 55
+    a.sayName(); // 李白
+    var b = new Children("张三", 66);
+    console.log(b.colors); // red orange
+    b.sayAge();  // 66 
+    b.sayName(); // 张三
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

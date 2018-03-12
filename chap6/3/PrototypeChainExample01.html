@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>继承-原型链</title>
+  <script>
+    // 继承是OO语言的特色，例如java .net都实现了：接口继承和实现型继承。在JS中由于没有函数签名，只支持实现继承。
+    // 实现继承主要是依赖：原型链
+    // 原型链的基本思想就是：让一个引用类型继承别一个引用类型的属性和方法
+    // 原型链的解释：
+    // 假如有A , B 两个对象：如果想让B继承A的属性和方法，如下：
+    // 首页让B的prototype 指向A对象的一个实例（B.prototype = new A()）,根据JS的原型规定可以得出A的实例有一个[[prototype]]
+    // 属性指向A构造函数的原型，即B的prototype是对象A的prototype，而A的prototype中的constructor又指向A构造函数
+    // 这样就行成了原型链，也实现了B继承A的共享属性和方法
+    // 继承实现的本质就是：重写原型对象，代之以一个引用对象的实例
+
+    // 父类
+    function Animal() {
+      this.superName = "动物";
+    }
+    // 父类的特有方法
+    Animal.prototype.getSuperName = function() {
+      console.log(this.superName)
+    }
+    // 子类
+    function Cat() {
+      this.subName = "猫";
+    }
+    // 让Cat继承Animal独特的方法
+    Cat.prototype = new Animal();
+    // 修正Cat的constructor
+    Cat.prototype.constructor = Cat;
+    Cat.prototype.getSubName = function() {
+      console.log(this.subName)
+    }
+    var a = new Cat()
+    // a.getSuperName();
+    // a.getSubName();
+    // 分析上面的代码：Animal和Cat两种类型，每个类型都在一个自己和属性和方法。通过让Cat的prototype等于Animal的一个实例
+    // 实现了继承（Animal的实例也有一个[[prototype]]属性指向Animal prototype，即Cat prototype 指向了Animal prototype是间接，指向的），
+    // 注：这里的写法会有一个问题就是Cat prototype.construtor 会指向 Animal的构造方法
+    // console.log(Cat.prototype.constructor === Animal) // true
+    // 这里就不对了，正常的Cat prototype constructor应该是 Cat而不是Animal。要在继承时进行修正
+    // console.log(Cat.prototype.constructor == Cat) // true
+    // 函数的默认原型都是Object prototype 这就是为什么所有函数都有 toString()、valueOf()方法
+
+    // 2.确定原型和实例的关系
+    // a.通过 instanceof 来确定
+    // console.log(a instanceof Cat); // true
+    // console.log(a instanceof Animal); //true
+    // console.log(a instanceof Object); // true
+    // b.通过原型的isPrototypeOf()方法
+    // console.log(Cat.prototype.isPrototypeOf(a)) // true
+    // console.log(Animal.prototype.isPrototypeOf(a)); // true
+    // console.log(Object.prototype.isPrototypeOf(a)); // true
+  </script>
+</head>
+<body>  
+</body>
+</html>
